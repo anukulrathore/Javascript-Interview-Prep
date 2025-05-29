@@ -678,5 +678,109 @@ catch1: Error: Error thrown!
 then4: Recovered from error  
 catch2: Rejected again  
 
+## Prototypes
 
+```javascript
+Array.prototype.mymap = function (cb) {
+  let temp = [];
+  for (let i = 0; i < this.length; i++) {
+    temp.push(cb(this[i], i, this));
+  }
+  return temp;
+};
 
+Array.prototype.myfilter = function(cb) {
+    let temp = [];
+    for(let i=0;i< this.length;i++){
+        if(cb(this[i], i, this)){
+            temp.push(this[i])
+        }
+    }
+    return temp;
+}
+
+Array.prototype.myreduce = function(cb, initial) {
+    let accumulator = initial;
+    for(let i=0;i< this.length; i++){
+        accumulator = accumulator? cb(accumulator,this[i], i, this) : this[i];
+    }
+    return accumulator;
+}
+
+Function.prototype.mycall = function (context = {}, ...args) {
+    if(typeof this !== "function"){
+        throw new Error(this + "is not a function");
+    }
+
+    const fnkey = Symbol();
+    context[fnkey] = this;
+    const result = context[fnkey](...args)
+    delete context[fnkey];
+    return result;
+}
+
+Function.prototype.myapply = function (context = {}, args = []){
+    if(typeof this !== "function"){
+        throw new Error(this + "is not a function");
+    }
+
+    if(!Array.isArray(args)){
+        throw new Error(this + "expects array argument");
+    }
+
+    const fnkey = Symbol();
+    context[fnkey] = this;
+    const result = context[fnkey](...args)
+    delete context[fnkey]
+    return result;
+}
+
+Function.prototype.mybind = function (context = {}, ...args){
+    if(typeof this !== "function"){
+        throw new Error(this + "is not a function");
+    }
+
+    const fnkey = Symbol();
+    context[fnkey] = this;
+    return function(){
+        return context[fnkey](...args)
+    }
+}
+
+function mymemoize(cb, context) {
+    const res = {};
+
+    return function(...args) {
+        const argsStr = JSON.stringify(args); 
+
+        if (!res[argsStr]) {
+            res[argsStr] = cb.call(context || this, ...args);
+        }
+
+        return res[argsStr];
+    };
+}
+
+const mydebounce = function debounce (cb, delay){
+    let timer;
+    return function(...args){
+        if(timer) clearTimeout(timer);
+        timer = setTimeout(()=>{
+            cb(...args)
+        }, delay)
+    }
+}
+
+function throttle(cb, delay) {
+    let last = 0;
+
+    return function (...args) {
+        const now = Date.now().getTime(); 
+        if (now - last >= delay) {
+            last = now;
+            return cb(...args);
+        }
+    };
+}
+
+```
