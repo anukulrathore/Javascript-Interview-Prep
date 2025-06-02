@@ -1,7 +1,6 @@
 # 📦 Javascript Interview Questions
 
-This example shows how to convert a `Promise`-based `fetch()` function into an `async/await` version for improved readability and maintainability.
-
+**❓Convert promise to async/await**
 ```javascript
 function loadJson(url) {
     return fetch(url).then((response) => {
@@ -23,7 +22,7 @@ async function loadJson(url) {
 }
 ```
 
-**What's the output?**
+**❓What's the output?**
 
 ```javascript
 console.log("start");
@@ -42,16 +41,16 @@ fn().then((res) => {
 
 console.log("end");
 ```
-
+O/p -> 
 start
 middle
 1
 end
 success
 
-**code inside promise will be executed synchronously but then vall will be asynchronous
+// code inside promise will be executed synchronously but reolve will be asynchronous and console print at function execution
 
-**What's the output?**
+**❓What's the output?**
 
 ```javascript
 function f(){
@@ -63,15 +62,15 @@ const val = f.bind({name:"John"}).bind({name:"Ann"})
 
 O/p - "John" (Bind chaining does not exist)
 
-**Find Maxnumber in array**
-
-const numbers = [5,6,2,3,7]
+**❓Find Maxnumber in array, numbers = [5,6,2,3,7]**
 
 ```Javascript
+
 console.log(Math.max.apply(null, numbers));
+
 ```
 
-**Call `printAnimals` such that the `this` reference is correct**
+**❓Call `printAnimals` such that the `this` reference is correct**
 
 ```javascript
 const animals = [
@@ -86,13 +85,14 @@ function printAnimals(i) {
     this.print();
 }
 
+O/p -> 
 for (let i = 0; i < animals.length; i++) {
     printAnimals.call(animals[i], i);
 }
 
 ```
 
-**Analyze the output.**
+**❓Analyze the output.**
 
 ```javascript
 var status = "😊";
@@ -116,7 +116,7 @@ O/p -> 😍
 
 ```
 
-**Push elements of one array into another using `Array.prototype.push.apply`**
+**❓Push elements of one array into another using `Array.prototype.push.apply`**
 
 ```javascript
 const arr1 = [1, 2, 3];
@@ -127,7 +127,7 @@ Array.prototype.push.apply(arr1, arr2);
 console.log(arr1);
 ```
 
-**What's the output?**
+**❓What's the output?**
 
 ```Javascript
 const user = {
@@ -141,7 +141,7 @@ const user = {
 console.log(user.getName()); // Output is Anukul
 ```
 
-**Modify function to make ref point to name inside function**
+**❓Modify function to make ref point to name inside function**
 
 ```Javascript
 function User(){
@@ -165,17 +165,18 @@ function User(){
 }
 ```
 
-**Fix the asynchronous call so that `this` refers to the correct object using an **arrow function:**
+**❓Fix the asynchronous call so that `this` refers to the correct object using an arrow function:**
 
 ```javascript
 const user = {
-  name: "ANukul",
+  name: "Anukul",
   logMessage() {
     console.log(this.name);
   }
 };
 
-setTimeout(user.logMessage, 1000); //undefined window object as setTimout oasses the reference like copying the dunc def to async call
+setTimeout(user.logMessage, 1000); 
+//You're passing it by reference, not calling it immediately. SetTimeout will call the function without any object context after 1 sec.
 
 Solution -> 
 
@@ -183,7 +184,7 @@ setTimeout(() => user.logMessage(), 1000);
 setTimeout(user.logMessage.bind(user), 1000);
 ```
 
-**What will be the output and behavior of `this` in the following code?**
+**❓What will be the output and behavior of `this` in the following code?**
 
 ```javascript
 const obj = {
@@ -212,7 +213,7 @@ inner: undefined
 inner: Anukul
 ```
 
-**What will be the output of the following code?**
+**❓What will be the output of the following code?**
 
 ```javascript
 var length = 4;
@@ -224,28 +225,16 @@ function callback() {
 const object = {
   length: 5,
   method() {
-    arguments[0](); // calling callback
+    arguments[0](); // == arguments[0].call(arguments); this refers to arguments
   }
 };
 
 object.method(callback, 2, 3);
 ```
+
 Ans -> 3
 
-
-**What will be the output of the following code?**
-
-```javascript
-const obj = {
-    a: 100,
-    b: 50,
-    c: 10
-};
-
-console.log(obj); // { a: 100, b: 50, c: 10 }
-```
-
-**What will be the output of the following code?**
+**❓What will be the output of the following code?**
 
 ```javascript
 const a = {};
@@ -263,7 +252,7 @@ O/p -> 456
 //a["[object Object]"] = 456;
 ```
 
-**What does the following `callOnce` function do?**
+**❓What does the following `callOnce` function do?**
 
 ```javascript
 function callOnce(fn) {
@@ -279,10 +268,10 @@ function callOnce(fn) {
   };
 }
 
-Answer -> The callOnce function ensures that the passed function fn is executed only once. Any subsequent calls will be ignored and will log "Already called!".
+Answer -> The callOnce function ensures that the passed function fn is executed only once.
 ```
 
-**What happens when we assign an object to another variable and then change its property?**
+**❓What happens when we assign an object to another variable and then change its property?**
 
 ```javascript
 const obj1 = { value: 10 };
@@ -290,10 +279,10 @@ const obj2 = obj1;
 
 obj1.value = 20;
 
-console.log(obj2.value);
+console.log(obj2.value); // O/p -> 20
 ```
 
-What happens when we compare two identical-looking objects using `==` and `===`?
+**❓What happens when we compare two identical-looking objects using `==` and `===`?**
 
 ```javascript
 const obj1 = { key: "value" };
@@ -303,7 +292,7 @@ console.log(obj1 == obj2);  // false
 console.log(obj1 === obj2); // false
 ```
 
-**What happens when we assign an object to an array, then set the original variable to `null`, and later modify the object's properties?**
+**❓What happens when we assign an object to an array, then set the original variable to `null`, and later modify the object's properties?**
 
 ```javascript
 let person = { name: "Anukul", age: 25 };
@@ -319,23 +308,27 @@ arr[0].age = 30;
 
 console.log(arr[0]); // Modified object
 
-O/p -> { name: 'Anukul', age: 25 }
-    { name: 'Anukul', age: 30 }
+O/p -> 
+{ name: 'Anukul', age: 25 }
+{ name: 'Anukul', age: 30 }
 
 ```
-**What's the output?**
 
+**❓What's the output?**
+
+```javascript
 const value = { number: 10 };
 const multiply = (x = { ...value }) => {
   console.log(x.number *= 2);
 };
 
-multiply();
-multiply();
-multiply(value);
-multiply(value);
+multiply();  // 20
+multiply();  // 20
+multiply(value);  // 20
+multiply(value);  // 40
+```
 
-**Question:** What will be the output of the following code involving object mutation and reassignment?
+**❓What will be the output of the following code involving object mutation and reassignment?**
 
 ```javascript
 function changeAgeAndReference(person) {
@@ -357,11 +350,12 @@ const personObj2 = changeAgeAndReference(personObj1);
 console.log(personObj1);
 console.log(personObj2);
 
-O/p => { name: 'Alex', age: 25 }
+O/p => 
+{ name: 'Alex', age: 25 }
 { name: 'John', age: 50 }
 ```
 
-**How do you implement an infinite currying sum function?**
+**❓How do you implement an infinite currying sum function?**
 
 ```javascript
 function sum(a) {
@@ -375,7 +369,6 @@ function sum(a) {
 
 // Usage
 console.log(sum(1)(2)(3)(4)()); // O/p => 10
-console.log(sum(5)(-1)(2)());   // O/p => 6
 ```
 
 **❓ Illegal shadowing and variable declaration in JavaScript?**
@@ -393,6 +386,7 @@ let and const cannot be redeclared and const cannot be reinitialized
 
 **Javascript Execution Context**
 🧠 Explanation:
+
 In JavaScript, code runs inside an execution context. When a script runs, JavaScript creates a Global Execution Context (GEC) which has two phases:
 
     Memory Creation Phase (Hoisting Phase)
@@ -404,14 +398,12 @@ In JavaScript, code runs inside an execution context. When a script runs, JavaSc
         let and const are hoisted too, but not initialized (they remain in a temporal dead zone).
 
     Execution Phase
-        Code runs line by line, assigning values and executing functions.
-// for each function new execution context is created
+        Code runs line by line, assigning values and executing functions. Every function creates a new execution context
+        
+Map returns a new array whereas forEach modifies the array and all these ,methods allow chaining
 
-// map returns a new array whereas forEach modifies the array and all these ,ethods allow chaining
-   Code runs line by line, assigning values and executing functions.
+**❓What's the output?**
 
-
-**What's the output?**
 ```Javascript
 var x = 10;
 function random(){
@@ -422,7 +414,7 @@ function random(){
 O/p -> undefined
 ```
 
-**What's the output?**
+**❓What's the output?**
 ```Javascript
 let count = 0;
 function printCount(){
@@ -434,10 +426,9 @@ function printCount(){
 }
 ```
 
-**What is the difference between `let` and `var` in a `for` loop with `setTimeout`?**
+**❓What is the difference between `let` and `var` in a `for` loop with `setTimeout`?**
 
 ```javascript
-// Example with var
 for (var i = 0; i < 3; i++) {
   setTimeout(() => {
     console.log("var i:", i);
@@ -446,7 +437,6 @@ for (var i = 0; i < 3; i++) {
 
 o/p -> 333
 
-// Example with let
 for (let j = 0; j < 3; j++) {
   setTimeout(() => {
     console.log("let j:", j);
@@ -470,7 +460,7 @@ showNums();
 o/p -> 012
 ```
 
-**How do you implement the Module Pattern in JavaScript with private and public methods?**
+**❓How do you implement the Module Pattern in JavaScript with private and public methods?**
 
 ```javascript
 const CounterModule = (function () {
@@ -493,7 +483,7 @@ CounterModule.increment(); // Output: Current count (private): 1
 CounterModule.logCount(); // ❌ Error: logCount is not a function
 ```
 
-**What does the following code print?**
+**❓What does the following code print?**
 
 ```javascript
 function f() {
@@ -509,7 +499,7 @@ user.g();
 O/p -> null ( window object in browser)
 ```
 
-**What will be the output of the following code when using `bind()` on normal vs arrow functions?**
+**❓What will be the output of the following code when using `bind()` on normal vs arrow functions?**
 
 ```javascript
 const obj = {
@@ -531,6 +521,7 @@ const boundArrow = obj.arrow.bind(anotherObj);
 
 boundNormal(); // ✅ Output: Normal: Another Object
 boundArrow();  // ✅ Output: Arrow: undefined (or window/globalThis.name in browsers)
+// Arrow function don't define their own this inherit it from surrounding lexical scope 
 ```
 
 **❓ What are Promise combinators in JavaScript and how do they behave?**
@@ -567,13 +558,13 @@ Promise.any([p3, p2, p1])
   .catch(console.error);    // Only if all promises reject
 
 **🧠 Summary:**
-- `Promise.all` → Waits for all to succeed or fails fast.
-- `Promise.race` → Resolves/rejects with the first one that finishes.
-- `Promise.allSettled` → Waits for all and returns results regardless of success/failure.
-- `Promise.any` → Resolves with the first fulfilled, rejects only if all fail.
+- `Promise.all` → Waits for all promises to fulfill, or rejects if any fail.
+- `Promise.race` → Resolves or rejects as soon as the first promise settles..
+- `Promise.allSettled` → Waits for all promises to settle (fulfilled or rejected), returns an array of outcomes.
+- `Promise.any` → Returns the first fulfilled promise, or rejects if all are rejected.
 ```
 
-**What will be the output of the following code when a Promise is created but never resolved or rejected?**
+**❓What will be the output of the following code when a Promise is created but never resolved or rejected?**
 
 ```javascript
 console.log("1: Start");
@@ -582,7 +573,7 @@ const promise = new Promise((resolve, reject) => {
   console.log("2: Inside promise (sync part)");
   // No resolve or reject
 });
-
+console.log("Random)
 promise.then(() => {
   console.log("3: This will NOT run");
 });
@@ -592,13 +583,14 @@ console.log("4: End");
 // ✅ Output:
 1: Start
 2: Inside promise (sync part)
+Random
 4: End
 ```
 **🧠 Note:**  
 Since the promise is never resolved or rejected, the `.then()` callback is never executed.
 
 
-**What is the output order of this asynchronous code involving a Promise and `setTimeout`?**
+**❓What is the output order of this asynchronous code involving a Promise and `setTimeout`?**
 
 ```javascript
 console.log("A: Script start");
@@ -625,13 +617,13 @@ console.log("G: After calling tricky()");
 ```
 
 // ✅ Output order:
-A: Script start  
-B: Function called  
-C: Promise executor running  
-E: Before calling tricky()  
-G: After calling tricky()  
-D: Timeout done, resolving promise  
-F: Promise resolved with: Done  
+A: Script start
+E: Before calling tricky()
+B: Function called
+C: Promise executor running
+G: After calling tricky()
+D: Timeout done, resolving promise
+F: Promise resolved with: Done
 
 **❓ What is the output of this Promise chain with resolves, throws, and catches?**
 
@@ -652,24 +644,23 @@ myPromiseFunc(1)
     return "Return a string";          // Resolves next step with this string
   })
   .then((res) => {
-    console.log("then2:", res);       // Logs: Return a string
+    console.log("then2:", res);       // Logs: then:Return a string
     throw new Error("Error thrown!"); // Throws error, skips next then, goes to catch
   })
   .then(() => {
     console.log("then3: skipped");    // This is skipped because of thrown error
   })
   .catch((err) => {
-    console.log("catch1:", err);      // Logs: Error thrown!
+    console.log("catch1:", err);      // Logs: catch 1:Error thrown!
     return "Recovered from error";    // Resolves the chain again
   })
   .then((res) => {
-    console.log("then4:", res);       // Logs: Recovered from error
+    console.log("then4:", res);       // Logs: then4:Recovered from error
     return Promise.reject("Rejected again");
   })
   .catch((err) => {
-    console.log("catch2:", err);      // Logs: Rejected again
+    console.log("catch2:", err);      // Logs: catch2:Rejected again
   });
-```
 
 // ✅ Output:
 then1: Resolved with 1  
@@ -677,6 +668,7 @@ then2: Return a string
 catch1: Error: Error thrown!  
 then4: Recovered from error  
 catch2: Rejected again  
+```
 
 ## Prototypes
 
