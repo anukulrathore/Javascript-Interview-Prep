@@ -1,5 +1,61 @@
 # 📦 Javascript Interview Questions
 
+## Tricky coercions questions
+```javascript
+"5" - "2"  // → 3 (both strings are coerced to numbers)
+1 + "2" + 3  // → "123" (1 + "2" = "12", then "12" + 3 = "123")
+"10" - 4 + "2"  // → "62" ("10" - 4 = 6, then 6 + "2" = "62")
+true + 1 + "3"  // → "23" (true → 1, 1 + 1 = 2, then 2 + "3" = "23")
+null + 1        // → 1  (null coerces to 0)
+undefined + 1   // → NaN (undefined → NaN)
+[] == false   // → true  ([] → "" → 0, false → 0)
+[] == 0       // → true  ([] → "" → 0)
+"" == 0       // → true  ("" → 0)
+[] + []       // → ""      (string coercion, empty arrays become "")
+[] + {}       // → "[object Object]" ("" + "[object Object]")
+{} + []       // → 0       (parsed as a block + array → +[] → 0) -> [] → 0 (via coercion: [].toString() → "" → Number("") → 0)
+
+``` 
+
+**❓What will be the output of the following code, and why?**
+
+```javascript
+console.log("1: script start");
+
+setTimeout(() => {
+  console.log("2: setTimeout"); // Macrotask
+}, 0);
+
+Promise.resolve().then(() => {
+  console.log("3: promise 1");
+});
+
+async function asyncFunc() {
+  console.log("4: async function start"); // synchronous
+  await Promise.resolve();        // Behaves like then
+  console.log("5: after await"); // After promise is resolved
+}
+
+asyncFunc();
+
+Promise.resolve().then(() => {
+  console.log("6: promise 2");
+});
+
+console.log("7: script end");
+
+O/p ->
+
+1: script start
+4: async function start
+7: script end
+3: promise 1
+5: after await
+6: promise 2
+2: setTimeout
+
+```
+
 **❓Convert promise to async/await**
 ```javascript
 function loadJson(url) {
@@ -109,6 +165,7 @@ setTimeout(function () {
 
     console.log(data.getStatus());           // Output 1
     console.log(data.getStatus.call(this));  // Output 2
+    // incase of arrow function in setTimeout the output 2 will be 😊
 }, 0);
 
 O/p -> 😍
@@ -180,8 +237,9 @@ setTimeout(user.logMessage, 1000);
 
 Solution -> 
 
-setTimeout(() => user.logMessage(), 1000);
+setTimeout(() => user.logMessage(), 1000); // arrow function takes this reference from wher
 setTimeout(user.logMessage.bind(user), 1000);
+//You're not using this inside the arrow function — you're calling user.logMessage() directly. So the arrow function isn't relying on this at all. It's just calling a method from the object user.
 ```
 
 **❓What will be the output and behavior of `this` in the following code?**
@@ -269,6 +327,19 @@ function callOnce(fn) {
 }
 
 Answer -> The callOnce function ensures that the passed function fn is executed only once.
+```
+
+**❓Write a function replaceEscapeSequences that returns the modified string with the escape sequences replaced.**
+
+``` javascript
+
+  function replaceEscapeSequences(str) {
+    return str
+        .replace(/\\n/g, '\n')    // Replace \n with new line where regex -> // with global g
+        .replace(/\\t/g, '\t')    // Replace \t with tab
+        .replace(/\\"/g, '"')     // Replace \" with double quote
+        .replace(/\\\\/g, '\\');  // Replace \\ with backslash
+}
 ```
 
 **❓What happens when we assign an object to another variable and then change its property?**
@@ -625,7 +696,7 @@ G: After calling tricky()
 D: Timeout done, resolving promise
 F: Promise resolved with: Done
 
-**❓ What is the output of this Promise chain with resolves, throws, and catches?**
+**❓What is the output of this Promise chain with resolves, throws, and catches?**
 
 ```javascript
 function myPromiseFunc(value) {
@@ -704,10 +775,10 @@ Function.prototype.mycall = function (context = {}, ...args) {
         throw new Error(this + "is not a function");
     }
 
-    const fnkey = Symbol();
+    const fnkey = Symbol(); // not overwriting any other property mistakenly
     context[fnkey] = this;
     const result = context[fnkey](...args)
-    delete context[fnkey];
+    delete context[fnkey]; // to unbind the property from object
     return result;
 }
 
@@ -776,3 +847,18 @@ function throttle(cb, delay) {
 }
 
 ```
+
+**❓Deep compare two objects**
+
+```javascript
+function deepCompare(obj a, obj b){
+  if(a===b) return true;
+  if(typeof a!== 'object' || typeof b!== 'object' || a===null || b===null) return false;
+  if(Object.keys(a).length!==Object.keys(b).length) return false;
+  for(let key of a){
+    if(!Object.keys(b).includes(key) || !deepCompare(a[key], b[key])) return false;
+  }
+  return false;
+}
+```
+
